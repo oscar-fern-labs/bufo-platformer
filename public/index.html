@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bufo Platformer - Competitive Frog Jumping</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: white;
+        }
+        
+        .game-container {
+            text-align: center;
+            background: #16213e;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        canvas {
+            border: 3px solid #0f3460;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 100%);
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+        
+        .game-ui {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 0 20px;
+        }
+        
+        .player-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+        
+        .player1 { border-left: 4px solid #ff6b6b; }
+        .player2 { border-left: 4px solid #4ecdc4; }
+        
+        .controls {
+            margin-top: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .leaderboard {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .game-status {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        button {
+            background: #0f3460;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #1e5f8b;
+        }
+        
+        .menu-screen {
+            text-align: center;
+            display: none;
+        }
+        
+        .game-screen {
+            display: block;
+        }
+        
+        h1 {
+            color: #4ecdc4;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Menu Screen -->
+        <div id="menuScreen" class="menu-screen">
+            <h1>🐸 BUFO PLATFORMER 🐸</h1>
+            <p>Competitive Frog Jumping Adventure!</p>
+            <div class="controls">
+                <div>Player 1: WASD to move and jump | Space to attack</div>
+                <div>Player 2: Arrow Keys to move and jump | Enter to attack</div>
+            </div>
+            <button onclick="startGame()">Start Game</button>
+            <div class="leaderboard" id="menuLeaderboard">
+                <h3>🏆 Leaderboard</h3>
+                <div id="menuLeaderboardList">Loading...</div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="gameScreen" class="game-screen">
+            <h1>🐸 BUFO PLATFORMER 🐸</h1>
+            
+            <div class="game-ui">
+                <div class="player-info player1">
+                    <div>Player 1 (Red)</div>
+                    <div>Height: <span id="player1Height">0m</span></div>
+                    <div>Score: <span id="player1Score">0</span></div>
+                </div>
+                
+                <div class="game-status" id="gameStatus">
+                    Ready to Hop!
+                </div>
+                
+                <div class="player-info player2">
+                    <div>Player 2 (Blue)</div>
+                    <div>Height: <span id="player2Height">0m</span></div>
+                    <div>Score: <span id="player2Score">0</span></div>
+                </div>
+            </div>
+            
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+            
+            <div class="controls">
+                Player 1: WASD + Space to attack | Player 2: Arrow Keys + Enter to attack
+                <br>
+                <button onclick="pauseGame()" id="pauseBtn">Pause</button>
+                <button onclick="showMenu()">Menu</button>
+            </div>
+            
+            <div class="leaderboard">
+                <h3>🏆 Top Jumpers</h3>
+                <div id="leaderboardList">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="backgroundMusic" loop>
+        <source src="/assets/audio/background.mp3" type="audio/mpeg">
+        <source src="/assets/audio/background.ogg" type="audio/ogg">
+    </audio>
+    <audio id="jumpSound">
+        <source src="/assets/audio/jump.mp3" type="audio/mpeg">
+        <source src="/assets/audio/jump.wav" type="audio/wav">
+    </audio>
+    <audio id="attackSound">
+        <source src="/assets/audio/attack.mp3" type="audio/mpeg">
+        <source src="/assets/audio/attack.wav" type="audio/wav">
+    </audio>
+
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- Game Scripts -->
+    <script src="/js/platform.js"></script>
+    <script src="/js/obstacle.js"></script>
+    <script src="/js/player.js"></script>
+    <script src="/js/audio.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/game.js"></script>
+    
+</body>
+</html>
